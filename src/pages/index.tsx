@@ -2,6 +2,7 @@ import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import { invoke } from "@tauri-apps/api/tauri"
 import { useEffect } from 'react'
+import ChatBox from '@/components/ChatBox'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,9 +20,9 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className='flex justify-center items-center h-[100vh] text-red-400'>
-        Welcome to my first Tauri App with Next.js
-      </main>
+      <main>
+        <ChatBox title="help you sound more professional" />
+        </main>
     </>
   )
 }

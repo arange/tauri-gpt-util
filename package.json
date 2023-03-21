@@ -11,6 +11,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tailwindcss/typography": "^0.5.9",
     "@tauri-apps/api": "^1.2.0",
     "@types/node": "18.15.5",
     "@types/react": "18.0.28",
