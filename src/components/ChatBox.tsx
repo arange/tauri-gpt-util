@@ -1,5 +1,4 @@
 import fetchGPT from "@/dal/gpt";
-// import fetch from "@/fetch";
 import { useState } from "react";
 import Button from "./UI/Button";
 import Container from "./UI/Container";
@@ -13,11 +12,13 @@ interface ChatBoxProps {
 export default function ChatBox({ prompt, title, persistInput }: ChatBoxProps) {
   const [sentenceInput, setSentenceInput] = useState("");
   const [result, setResult] = useState<Array<string>>();
+  const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState(false);
 
   async function onSubmit() {
     try {
       setLoading(true);
+      setError('');
       if (!sentenceInput) {
         throw new Error("Missing input");
       }
@@ -26,6 +27,7 @@ export default function ChatBox({ prompt, title, persistInput }: ChatBoxProps) {
 
       const { result, error: { message } = {} } = response;
       if (message || !result) {
+        setError(message || 'Something went wrong!')
         throw new Error(message);
       }
 
@@ -67,6 +69,9 @@ export default function ChatBox({ prompt, title, persistInput }: ChatBoxProps) {
                 <p key={v}>{v}</p>
               ))}
             </article>
+          )}
+          {error && (
+            <p className="text-red-400">{error}</p>
           )}
         </div>
       </div>
