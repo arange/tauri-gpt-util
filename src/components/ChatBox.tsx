@@ -1,12 +1,16 @@
 import Head from 'next/head';
 import { useState } from 'react';
-import Container from './Container';
+import Button from './UI/Button';
+import Container from './UI/Container';
 
 interface ChatBoxProps {
-    title: string
+  text: string
+  title: string
+  prompt: string
+  persistInput: boolean
 }
 
-export default function ChatBox({title}: ChatBoxProps) {
+export default function ChatBox({ text, prompt, title, persistInput }: ChatBoxProps) {
   const [sentenceInput, setSentenceInput] = useState('');
   const [result, setResult] = useState<Array<string>>();
   const [loading, setLoading] = useState(false);
@@ -15,14 +19,14 @@ export default function ChatBox({title}: ChatBoxProps) {
     try {
       setLoading(true);
       if (!sentenceInput) {
-        throw new Error('Missing sentence');
+        throw new Error('Missing input');
       }
       const response = await fetch(`/api/gpt`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ sentenceInput }),
+        body: JSON.stringify({ prompt, sentenceInput }),
       });
 
       const data: { result: string; error?: unknown } = await response.json();
@@ -48,31 +52,31 @@ export default function ChatBox({title}: ChatBoxProps) {
     } catch (error) {
       // Consider implementing your own error handling logic here
       console.error(error);
+      alert(error)
     } finally {
       setLoading(false);
-      setSentenceInput('');
+      !persistInput && setSentenceInput('');
     }
   }
 
   return (
-    <Container className='h-[100vh] flex justify-center items-center'>
-      <div className="flex flex-col gap-4 justify-center items-center px-3 capitalize">
-        <h3 className="text-4xl">{title}</h3>
+    <Container className='h-full flex justify-center items-center'>
+      <div className="flex flex-col gap-4 justify-center items-center px-3">
+        <h3 className="text-3xl capitalize">{title}</h3>
         <div className="flex flex-col gap-3">
+          <span className='italic text-gray-500'>&quot;{text}&quot;</span>
           <textarea
-            className="w-80 p-2 h-52 border"
+            className="w-full min-w-[442px] p-2 h-52 border"
             name="sentence"
             placeholder="Enter your sentence here."
             value={sentenceInput}
             onChange={(e) => setSentenceInput(e.target.value)}
           />
-          <button
-            className="text-white bg-green-500 border p-2 rounded hover:bg-slate-500"
+          <Button
             onClick={() => onSubmit()}
-            type="button"
           >
             {loading ? 'Loading..' : 'Send'}
-          </button>
+          </Button>
         </div>
         <div className="py-4 text-blue-500">
           {result && (
