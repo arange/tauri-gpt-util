@@ -21,7 +21,7 @@ const PROMPTS: Array<{ text: string; prompt: string }> = [
 
 export default function Home() {
   const [activeItem, setActiveItem] = useState<string>(PROMPTS[0].text);
-  const [prompt, setPrompt] = useState<string>('');
+  const [prompt, setPrompt] = useState<string>(PROMPTS[0].prompt);
   const [persistInput, setPersistInput] = useState<boolean>(true)
 
   const handleSelect = (label: string) => {
