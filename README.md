@@ -2,6 +2,11 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+### Have your openai API key ready
+
+- Rename **.env.example** to **.env**
+- Set your own API key
+
 ### Run in the browser
 To run the development server:
 
