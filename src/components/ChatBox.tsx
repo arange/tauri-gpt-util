@@ -4,13 +4,12 @@ import Button from './UI/Button';
 import Container from './UI/Container';
 
 interface ChatBoxProps {
-  text: string
   title: string
   prompt: string
   persistInput: boolean
 }
 
-export default function ChatBox({ text, prompt, title, persistInput }: ChatBoxProps) {
+export default function ChatBox({ prompt, title, persistInput }: ChatBoxProps) {
   const [sentenceInput, setSentenceInput] = useState('');
   const [result, setResult] = useState<Array<string>>();
   const [loading, setLoading] = useState(false);
@@ -64,7 +63,6 @@ export default function ChatBox({ text, prompt, title, persistInput }: ChatBoxPr
       <div className="flex flex-col gap-4 justify-center items-center px-3">
         <h3 className="text-3xl capitalize">{title}</h3>
         <div className="flex flex-col gap-3">
-          <span className='italic text-gray-500'>&quot;{text}&quot;</span>
           <textarea
             className="w-full min-w-[442px] p-2 h-52 border"
             name="sentence"

@@ -57,7 +57,7 @@ export default function Home() {
             <input type='checkbox' checked={persistInput} onChange={() => {setPersistInput(v => !v)}}/>
             <label>Persist input after showing result</label>
           </div>
-          <ChatBox text={prompt} persistInput={persistInput} prompt={prompt} title="help you sound more professional" />
+          <ChatBox persistInput={persistInput} prompt={prompt} title={prompt} />
         </Container>
       </main>
     </>
