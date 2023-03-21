@@ -29,3 +29,15 @@ yarn tauri dev
 # or
 pnpm tauri dev
 ```
+
+This will also start the local server so you can still access [http://localhost:3000](http://localhost:3000) to debug
+
+## Build the desktop app
+
+```bash
+npm run tauri build
+# or
+yarn tauri build
+# or
+pnpm tauri build
+```
