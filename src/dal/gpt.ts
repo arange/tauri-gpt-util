@@ -2,7 +2,7 @@ import type { ChatCompletionRequestMessage } from 'openai';
 import { Configuration, OpenAIApi } from 'openai';
 
 const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: '', // put your own API KEY here
 });
 const openai = new OpenAIApi(configuration);
 const MODEL = 'gpt-4';

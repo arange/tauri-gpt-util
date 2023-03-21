@@ -4,8 +4,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ### Have your openai API key ready
 
-- Rename **.env.example** to **.env**
-- Set your own API key
+set your own API KEY in `src/dal/gpt.ts`
 
 ### Run in the browser
 To run the development server:

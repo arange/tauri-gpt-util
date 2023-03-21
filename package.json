@@ -8,6 +8,8 @@
     "export": "next export",
     "start": "next start",
     "tauri": "tauri",
+    "debug:app": "tauri build --debug",
+    "build:app": "tauri build",
     "lint": "next lint"
   },
   "dependencies": {

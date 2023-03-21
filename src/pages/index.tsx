@@ -1,8 +1,6 @@
 import Head from "next/head";
-import { invoke } from "@tauri-apps/api/tauri";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ChatBox from "@/components/ChatBox";
-import Button from "@/components/UI/Button";
 import Container from "@/components/UI/Container";
 import SelectableItem from "@/components/UI/SelectableItem";
 
@@ -29,9 +27,6 @@ export default function Home() {
     setPrompt(PROMPTS.find(p => p.text === label)?.prompt ?? '')
   };
 
-  useEffect(() => {
-    invoke("greet", { name: "World" }).then(console.log).catch(console.error);
-  }, []);
 
   return (
     <>
