@@ -1,4 +1,3 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
 import type { ChatCompletionRequestMessage } from 'openai';
 import { Configuration, OpenAIApi } from 'openai';
 
@@ -20,33 +19,28 @@ function generatePrompt(
     ];
 }
 
-export default async function gpt(
-    req: NextApiRequest,
-    res: NextApiResponse
+export default async function fetchGPT({prompt, sentence}: {prompt: string; sentence: string}
 ) {
 
     if (!configuration.apiKey) {
-        return res.status(500).json({
+        return {
             error: {
                 message:
                     'OpenAI API key not configured, please follow instructions in README.md',
             },
-        });
+        };
     }
 
-    const {prompt = '', sentenceInput: sentence = ''} = req.body || {}
-
     if (sentence.trim().length === 0) {
-        return res.status(400).json({
+        return {
             error: {
                 message: 'Please enter a valid sentence',
             },
-        });
+        };
     }
 
     try {
         const messages = generatePrompt(prompt, sentence)
-        console.log('messages', messages)
         const completion = await openai.createChatCompletion({
             model: MODEL,
             messages,
@@ -54,15 +48,13 @@ export default async function gpt(
             max_tokens: 1000,
         });
         console.log({ result: completion.data.choices[0] });
-        return res
-            .status(200)
-            .json({ result: completion.data.choices[0].message?.content });
+        return { result: completion.data.choices[0].message?.content };
     } catch (error) {
         console.error(`Error with OpenAI API request: ${error}`);
-        return res.status(500).json({
+        return {
             error: {
                 message: 'An error occurred during your request.',
             },
-        });
+        };
     }
 }

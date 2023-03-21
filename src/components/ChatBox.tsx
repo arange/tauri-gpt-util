@@ -1,16 +1,17 @@
-import Head from 'next/head';
-import { useState } from 'react';
-import Button from './UI/Button';
-import Container from './UI/Container';
+import fetchGPT from "@/dal/gpt";
+// import fetch from "@/fetch";
+import { useState } from "react";
+import Button from "./UI/Button";
+import Container from "./UI/Container";
 
 interface ChatBoxProps {
-  title: string
-  prompt: string
-  persistInput: boolean
+  title: string;
+  prompt: string;
+  persistInput: boolean;
 }
 
 export default function ChatBox({ prompt, title, persistInput }: ChatBoxProps) {
-  const [sentenceInput, setSentenceInput] = useState('');
+  const [sentenceInput, setSentenceInput] = useState("");
   const [result, setResult] = useState<Array<string>>();
   const [loading, setLoading] = useState(false);
 
@@ -18,48 +19,32 @@ export default function ChatBox({ prompt, title, persistInput }: ChatBoxProps) {
     try {
       setLoading(true);
       if (!sentenceInput) {
-        throw new Error('Missing input');
+        throw new Error("Missing input");
       }
-      const response = await fetch(`/api/gpt`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ prompt, sentenceInput }),
-      });
+      const response = await fetchGPT({ prompt, sentence: sentenceInput });
+      console.log("response", response);
 
-      const data: { result: string; error?: unknown } = await response.json();
-      if (response.status !== 200) {
-        if (response.status === 401) {
-          throw new Error('This is not a public service, please login first!');
-        }
-        if (response.status === 403) {
-          throw new Error(
-            'You are not allowed to use this API, contact the admin to get access.'
-          );
-        }
-        throw (
-          data.error ||
-          new Error(`Request failed with status ${response.status}`)
-        );
+      const { result, error: { message } = {} } = response;
+      if (message || !result) {
+        throw new Error(message);
       }
 
-      const betterResults = data.result.split('\n');
+      const betterResults = result.split("\n");
       console.log({ betterResults });
 
       setResult(betterResults);
     } catch (error) {
       // Consider implementing your own error handling logic here
       console.error(error);
-      alert(error)
+      alert(error);
     } finally {
       setLoading(false);
-      !persistInput && setSentenceInput('');
+      !persistInput && setSentenceInput("");
     }
   }
 
   return (
-    <Container className='h-full flex justify-center items-center'>
+    <Container className="h-full flex justify-center items-center">
       <div className="flex flex-col gap-4 justify-center items-center px-3">
         <h3 className="text-3xl capitalize">{title}</h3>
         <div className="flex flex-col gap-3">
@@ -70,10 +55,8 @@ export default function ChatBox({ prompt, title, persistInput }: ChatBoxProps) {
             value={sentenceInput}
             onChange={(e) => setSentenceInput(e.target.value)}
           />
-          <Button
-            onClick={() => onSubmit()}
-          >
-            {loading ? 'Loading..' : 'Send'}
+          <Button onClick={() => onSubmit()}>
+            {loading ? "Loading.." : "Send"}
           </Button>
         </div>
         <div className="w-full py-4 text-blue-500">
