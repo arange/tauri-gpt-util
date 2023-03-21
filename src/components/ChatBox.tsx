@@ -78,7 +78,7 @@ export default function ChatBox({ text, prompt, title, persistInput }: ChatBoxPr
             {loading ? 'Loading..' : 'Send'}
           </Button>
         </div>
-        <div className="py-4 text-blue-500">
+        <div className="w-full py-4 text-blue-500">
           {result && (
             <article className="prose">
               <h3>Result</h3>
